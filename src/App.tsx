@@ -1,18 +1,23 @@
+// import React from 'react';
+import Sidebar from './Sidebar';
+import Header from './Header';
 import SalesTable from './SalesTable';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Sales CRM Dashboard
-          </h1>
-          <p className="text-gray-600">
-            Manage your sales data efficiently
-          </p>
-        </div>
-        <SalesTable />
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar activeSection="sales" />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <Header balance={1000} username="Рушан_113" />
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-auto p-6">
+          <SalesTable />
+        </main>
       </div>
     </div>
   );
