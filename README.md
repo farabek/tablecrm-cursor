@@ -1,69 +1,151 @@
-# React + TypeScript + Vite
+# TableCRM Mobile Order Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Мобильная форма оформления заказа для TableCRM.com в формате webapp.
 
-Currently, two official plugins are available:
+## Описание
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Это приложение представляет собой мобильную форму для создания заказов в системе TableCRM. Форма разработана как Progressive Web App (PWA) и оптимизирована для использования на мобильных устройствах.
 
-## Expanding the ESLint configuration
+## Функциональность
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🔐 Авторизация
+- Ввод токена для доступа к конкретной кассе
+- Валидация токена через API
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 👤 Поиск клиентов
+- Поиск клиентов по номеру телефона
+- Создание новых клиентов
+- Поддержка карт лояльности
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 📋 Детали заказа
+- Выбор организации
+- Выбор склада (фильтрация по организации)
+- Выбор типа цены
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🛍️ Выбор товаров
+- Поиск товаров по названию и категории
+- Добавление товаров в корзину
+- Управление количеством и скидками
+- Расчет итоговой суммы
+
+### 📊 Сводка заказа
+- Просмотр всех данных заказа
+- Кнопки "Создать заказ" и "Создать и провести"
+- Возможность вернуться к редактированию
+
+## Технологии
+
+- **React 19** - Основной фреймворк
+- **TypeScript** - Типизация
+- **Tailwind CSS** - Стилизация
+- **Vite** - Сборка и разработка
+
+## Установка и запуск
+
+1. Установите зависимости:
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Запустите сервер разработки:
+```bash
+npm run dev
 ```
+
+3. Откройте браузер и перейдите по адресу: `http://localhost:5173`
+
+## API Интеграция
+
+Приложение интегрируется с API TableCRM:
+
+- **Endpoint**: `https://app.tablecrm.com/api/v1/docs_sales/?token={token}`
+- **Метод**: POST
+- **Формат данных**: JSON
+
+### Пример payload:
+```json
+[
+  {
+    "dated": 1754511851,
+    "operation": "Заказ",
+    "tax_included": true,
+    "tax_active": true,
+    "goods": [
+      {
+        "price": 500,
+        "quantity": 1,
+        "unit": 116,
+        "discount": 0,
+        "sum_discounted": 0,
+        "nomenclature": 45690
+      }
+    ],
+    "settings": {
+      "date_next_created": null
+    },
+    "loyality_card_id": 22476,
+    "warehouse": 39,
+    "contragent": 355176,
+    "paybox": 759,
+    "organization": 38,
+    "status": false,
+    "paid_rubles": 476.2,
+    "paid_lt": 23.8
+  }
+]
+```
+
+## Структура проекта
+
+```
+src/
+├── components/
+│   ├── OrderForm.tsx          # Главный компонент формы
+│   ├── TokenAuth.tsx          # Авторизация по токену
+│   ├── CustomerSearch.tsx     # Поиск и создание клиентов
+│   ├── OrderDetails.tsx       # Выбор деталей заказа
+│   ├── ProductSelection.tsx   # Выбор товаров
+│   └── OrderSummary.tsx       # Сводка заказа
+├── App.tsx                    # Главный компонент приложения
+└── index.css                  # Глобальные стили
+```
+
+## Особенности
+
+### Мобильная оптимизация
+- Адаптивный дизайн для всех размеров экранов
+- Touch-friendly интерфейс
+- Оптимизированная навигация
+
+### UX/UI
+- Пошаговая форма с индикатором прогресса
+- Валидация на каждом этапе
+- Информативные сообщения об ошибках
+- Загрузочные состояния
+
+### Безопасность
+- Валидация токена перед использованием
+- Безопасная передача данных через HTTPS
+- Защита от дублирования запросов
+
+## Разработка
+
+### Добавление новых функций
+1. Создайте новый компонент в папке `components/`
+2. Добавьте типы в соответствующий интерфейс
+3. Обновите основной компонент `OrderForm.tsx`
+4. Протестируйте функциональность
+
+### Стилизация
+Проект использует Tailwind CSS. Для добавления новых стилей:
+1. Используйте утилитарные классы Tailwind
+2. Для кастомных стилей создавайте CSS модули
+3. Следуйте принципам мобильного дизайна
+
+## Лицензия
+
+Этот проект создан в рамках тестового задания для TableCRM.com.
+
+## Контакты
+
+По вопросам разработки обращайтесь к команде TableCRM.
