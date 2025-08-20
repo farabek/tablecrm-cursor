@@ -5,22 +5,25 @@ interface SidebarProps {
   activeSubSection?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ activeSection = 'sales', activeSubSection = 'sales' }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  activeSection = 'sales',
+  activeSubSection = 'sales',
+}) => {
   const [expandedSections, setExpandedSections] = useState<string[]>(['sales']);
 
   const menuItems = [
     { id: 'payments', label: 'Платежи', icon: '📈' },
     { id: 'accounts', label: 'Счета', icon: '📄' },
     { id: 'analytics', label: 'Аналитика', icon: '📊' },
-    { 
-      id: 'sales', 
-      label: 'Продажи', 
-      icon: '💰', 
+    {
+      id: 'sales',
+      label: 'Продажи',
+      icon: '💰',
       hasDropdown: true,
       subItems: [
         { id: 'sales', label: 'Продажи' },
-        { id: 'contracts', label: 'Договоры' }
-      ]
+        { id: 'contracts', label: 'Договоры' },
+      ],
     },
     { id: 'purchases', label: 'Закупки', icon: '🛒' },
     { id: 'warehouse', label: 'Склад', icon: '📦', hasDropdown: true },
@@ -40,10 +43,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection = 'sales', activeSubSec
   ];
 
   const toggleSection = (sectionId: string) => {
-    setExpandedSections(prev => 
-      prev.includes(sectionId) 
-        ? prev.filter(id => id !== sectionId)
-        : [...prev, sectionId]
+    setExpandedSections((prev) =>
+      prev.includes(sectionId)
+        ? prev.filter((id) => id !== sectionId)
+        : [...prev, sectionId],
     );
   };
 
@@ -77,12 +80,16 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection = 'sales', activeSubSec
           <span className="mr-3 text-lg">{item.icon}</span>
           <span className="flex-1">{item.label}</span>
           {item.hasDropdown && (
-            <span className={`text-xs transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
+            <span
+              className={`text-xs transition-transform ${
+                isExpanded ? 'rotate-180' : ''
+              }`}
+            >
               ▼
             </span>
           )}
         </a>
-        
+
         {/* Sub-items */}
         {hasSubItems && isExpanded && (
           <ul className="ml-6 space-y-1">

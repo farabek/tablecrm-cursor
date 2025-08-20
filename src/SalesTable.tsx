@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import OrderModal from './OrderModal';
+import OrderModal from './components/OrderModal';
 
 interface SalesRow {
   id: number;
