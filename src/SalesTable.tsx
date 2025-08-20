@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import OrderModal from './components/OrderModal';
 
 interface SalesRow {
   id: number;
@@ -17,9 +18,12 @@ interface SalesRow {
 
 interface SalesTableProps {
   rows?: SalesRow[];
+  token?: string;
 }
 
-const SalesTable: React.FC<SalesTableProps> = ({ rows }) => {
+const SalesTable: React.FC<SalesTableProps> = ({ rows, token }) => {
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
   const demoRows: SalesRow[] = [
     {
       id: 1,
@@ -278,6 +282,7 @@ const SalesTable: React.FC<SalesTableProps> = ({ rows }) => {
         <div className="flex items-center space-x-4">
           <button
             type="button"
+            onClick={() => setIsOrderModalOpen(true)}
             className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700"
           >
             <span className="text-xl leading-none">+</span>
@@ -443,6 +448,15 @@ const SalesTable: React.FC<SalesTableProps> = ({ rows }) => {
           </svg>
         </button>
       </div>
+
+      {/* Order Modal */}
+      {token && (
+        <OrderModal
+          isOpen={isOrderModalOpen}
+          onClose={() => setIsOrderModalOpen(false)}
+          token={token}
+        />
+      )}
     </div>
   );
 };
